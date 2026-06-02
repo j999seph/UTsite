@@ -19,65 +19,162 @@ const priorities = [
   "Cross-border adaptability",
 ];
 
-type ThemeKey = "midnight" | "harbor" | "mist";
+type ThemeKey = "midnight" | "harbor" | "mist" | "ember";
+type ThemeMode = "dark" | "light";
 
 const themes: Record<
   ThemeKey,
   {
     name: string;
-    colors: {
-      bg: string;
-      bg2: string;
-      surface: string;
-      border: string;
-      text: string;
-      muted: string;
-      accent: string;
-      accent2: string;
-      buttonText: string;
-    };
+    variants: Record<
+      ThemeMode,
+      {
+        name: string;
+        colors: {
+          bg: string;
+          bg2: string;
+          surface: string;
+          border: string;
+          text: string;
+          muted: string;
+          accent: string;
+          accent2: string;
+          buttonText: string;
+        };
+      }
+    >;
   }
 > = {
   midnight: {
     name: "Midnight",
-    colors: {
-      bg: "#02002F",
-      bg2: "#11131A",
-      surface: "rgba(255,255,255,0.05)",
-      border: "rgba(255,255,255,0.10)",
-      text: "#F4F0E8",
-      muted: "rgba(244,240,232,0.68)",
-      accent: "#798DB8",
-      accent2: "#2632A0",
-      buttonText: "#02002F",
+    variants: {
+      dark: {
+        name: "Dark",
+        colors: {
+          bg: "#02002F",
+          bg2: "#11131A",
+          surface: "rgba(255,255,255,0.05)",
+          border: "rgba(255,255,255,0.10)",
+          text: "#F4F0E8",
+          muted: "rgba(244,240,232,0.68)",
+          accent: "#798DB8",
+          accent2: "#2632A0",
+          buttonText: "#02002F",
+        },
+      },
+      light: {
+        name: "Light",
+        colors: {
+          bg: "#F4F0E8",
+          bg2: "#D8DCE5",
+          surface: "rgba(255,255,255,0.60)",
+          border: "rgba(2,0,47,0.10)",
+          text: "#02002F",
+          muted: "rgba(2,0,47,0.68)",
+          accent: "#2632A0",
+          accent2: "#798DB8",
+          buttonText: "#F4F0E8",
+        },
+      },
     },
   },
   harbor: {
     name: "Harbor Light",
-    colors: {
-      bg: "#90D5FF",
-      bg2: "#77B1D4",
-      surface: "rgba(255,255,255,0.55)",
-      border: "rgba(81,120,145,0.18)",
-      text: "#10324A",
-      muted: "rgba(16,50,74,0.72)",
-      accent: "#517891",
-      accent2: "#6A89A7",
-      buttonText: "#FFFFFF",
+    variants: {
+      dark: {
+        name: "Dark",
+        colors: {
+          bg: "#517891",
+          bg2: "#384959",
+          surface: "rgba(255,255,255,0.08)",
+          border: "rgba(255,255,255,0.16)",
+          text: "#BDDDFC",
+          muted: "rgba(189,221,252,0.74)",
+          accent: "#90D5FF",
+          accent2: "#88BDF2",
+          buttonText: "#10324A",
+        },
+      },
+      light: {
+        name: "Light",
+        colors: {
+          bg: "#90D5FF",
+          bg2: "#77B1D4",
+          surface: "rgba(255,255,255,0.55)",
+          border: "rgba(81,120,145,0.18)",
+          text: "#10324A",
+          muted: "rgba(16,50,74,0.72)",
+          accent: "#517891",
+          accent2: "#6A89A7",
+          buttonText: "#FFFFFF",
+        },
+      },
     },
   },
   mist: {
     name: "Blue Mist",
-    colors: {
-      bg: "#BDDDFC",
-      bg2: "#88BDF2",
-      surface: "rgba(255,255,255,0.60)",
-      border: "rgba(56,73,89,0.18)",
-      text: "#203244",
-      muted: "rgba(32,50,68,0.70)",
-      accent: "#384959",
-      accent2: "#6A89A7",
-      buttonText: "#FFFFFF",
+    variants: {
+      dark: {
+        name: "Dark",
+        colors: {
+          bg: "#384959",
+          bg2: "#203244",
+          surface: "rgba(255,255,255,0.08)",
+          border: "rgba(255,255,255,0.14)",
+          text: "#BDDDFC",
+          muted: "rgba(189,221,252,0.72)",
+          accent: "#88BDF2",
+          accent2: "#6A89A7",
+          buttonText: "#203244",
+        },
+      },
+      light: {
+        name: "Light",
+        colors: {
+          bg: "#BDDDFC",
+          bg2: "#88BDF2",
+          surface: "rgba(255,255,255,0.60)",
+          border: "rgba(56,73,89,0.18)",
+          text: "#203244",
+          muted: "rgba(32,50,68,0.70)",
+          accent: "#384959",
+          accent2: "#6A89A7",
+          buttonText: "#FFFFFF",
+        },
+      },
+    },
+  },
+  ember: {
+    name: "Ember Mark",
+    variants: {
+      dark: {
+        name: "Dark",
+        colors: {
+          bg: "#262729",
+          bg2: "#131314",
+          surface: "rgba(255,255,255,0.06)",
+          border: "rgba(255,255,255,0.12)",
+          text: "#F4EFEA",
+          muted: "rgba(244,239,234,0.70)",
+          accent: "#B91E39",
+          accent2: "#7A1B2A",
+          buttonText: "#F4EFEA",
+        },
+      },
+      light: {
+        name: "Light",
+        colors: {
+          bg: "#F4EFEA",
+          bg2: "#E6DEDA",
+          surface: "rgba(255,255,255,0.72)",
+          border: "rgba(38,39,41,0.12)",
+          text: "#262729",
+          muted: "rgba(38,39,41,0.70)",
+          accent: "#B91E39",
+          accent2: "#262729",
+          buttonText: "#F4EFEA",
+        },
+      },
     },
   },
 };
@@ -86,19 +183,31 @@ export default function Home() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const [theme, setTheme] = useState<ThemeKey>("midnight");
+  const [mode, setMode] = useState<ThemeMode>("dark");
 
   useEffect(() => {
     const stored = window.localStorage.getItem("utsite-theme");
-    if (stored === "midnight" || stored === "harbor" || stored === "mist") {
-      setTheme(stored);
+    if (
+      stored === "midnight-dark" ||
+      stored === "midnight-light" ||
+      stored === "harbor-dark" ||
+      stored === "harbor-light" ||
+      stored === "mist-dark" ||
+      stored === "mist-light" ||
+      stored === "ember-dark" ||
+      stored === "ember-light"
+    ) {
+      const [storedTheme, storedMode] = stored.split("-") as [ThemeKey, ThemeMode];
+      setTheme(storedTheme);
+      setMode(storedMode);
     }
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("utsite-theme", theme);
-  }, [theme]);
+    window.localStorage.setItem("utsite-theme", `${theme}-${mode}`);
+  }, [theme, mode]);
 
-  const activeTheme = themes[theme];
+  const activeTheme = themes[theme].variants[mode];
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -139,8 +248,12 @@ export default function Home() {
       <header className="sticky top-0 z-20 border-b border-[var(--ut-border)] bg-[color-mix(in_srgb,var(--ut-accent)_12%,transparent)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--ut-border)] bg-[var(--ut-surface)] text-xs font-semibold">
-              UT
+            <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-[var(--ut-border)] bg-[var(--ut-surface)]">
+              <img
+                alt="Unique Trades logo"
+                className="h-full w-full object-contain p-1"
+                src="/ut-logo.svg"
+              />
             </div>
             <div>
               <p className="text-xs uppercase tracking-[0.25em] text-[var(--ut-accent)]">
@@ -157,46 +270,84 @@ export default function Home() {
                 </a>
               ))}
             </nav>
-            <button
-              className="rounded-full border border-[var(--ut-border)] bg-[var(--ut-surface)] px-4 py-2 text-xs uppercase tracking-[0.2em] text-[var(--ut-text)] transition hover:bg-[color-mix(in_srgb,var(--ut-accent)_14%,transparent)]"
-              type="button"
-              onClick={() => setThemeMenuOpen((value) => !value)}
-            >
-              Themes
-            </button>
           </div>
         </div>
+      </header>
 
+      <div className="fixed bottom-4 left-4 right-4 z-30 md:bottom-auto md:left-auto md:right-4 md:top-1/2 md:-translate-y-1/2">
         {themeMenuOpen ? (
-          <div className="border-t border-[var(--ut-border)] bg-[color-mix(in_srgb,var(--ut-accent)_10%,transparent)]">
-            <div className="mx-auto flex max-w-6xl flex-wrap gap-3 px-6 py-4">
-              {(
-                Object.entries(themes) as Array<[ThemeKey, (typeof themes)[ThemeKey]]>
-              ).map(([key, item]) => (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => setTheme(key)}
-                  className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.2em] transition ${
-                    theme === key
-                      ? "border-transparent bg-[var(--ut-accent)] text-[var(--ut-button-text)]"
-                      : "border-[var(--ut-border)] bg-[var(--ut-surface)] text-[var(--ut-text)] hover:bg-[color-mix(in_srgb,var(--ut-accent)_12%,transparent)]"
-                  }`}
-                >
-                  {item.name}
-                </button>
-              ))}
+          <div
+            className="mb-3 w-full rounded-3xl border p-4 shadow-soft backdrop-blur-xl md:mb-3 md:w-72"
+            style={{
+              borderColor: "var(--ut-border)",
+              background: "var(--ut-surface)",
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <p className="text-xs uppercase tracking-[0.25em] text-[var(--ut-accent)]">
+                Theme
+              </p>
               <button
                 type="button"
                 onClick={() => setThemeMenuOpen(false)}
-                className="rounded-full border border-[var(--ut-border)] bg-[var(--ut-surface)] px-4 py-2 text-xs uppercase tracking-[0.2em] text-[var(--ut-text)] transition hover:bg-[color-mix(in_srgb,var(--ut-accent)_12%,transparent)]"
+                className="text-xs uppercase tracking-[0.2em] text-[var(--ut-muted)] transition hover:text-[var(--ut-text)]"
               >
-                Hide
+                Close
               </button>
+            </div>
+            <div className="mt-4 space-y-3">
+              {(Object.entries(themes) as Array<[ThemeKey, (typeof themes)[ThemeKey]]>).map(
+                ([key, item]) => (
+                  <div
+                    key={key}
+                    className="rounded-2xl border p-2"
+                    style={{
+                      borderColor: "var(--ut-border)",
+                      background: "color-mix(in srgb, var(--ut-accent) 5%, transparent)",
+                    }}
+                  >
+                    <div className="mb-2 flex items-center justify-between px-2">
+                      <span className="text-xs uppercase tracking-[0.2em] text-[var(--ut-text)]">
+                        {item.name}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      {(["dark", "light"] as ThemeMode[]).map((variant) => {
+                        const isActive = theme === key && mode === variant;
+                        return (
+                          <button
+                            key={variant}
+                            type="button"
+                            onClick={() => {
+                              setTheme(key);
+                              setMode(variant);
+                            }}
+                            className={`rounded-xl border px-3 py-2 text-left text-xs uppercase tracking-[0.18em] transition ${
+                              isActive
+                                ? "border-transparent bg-[var(--ut-accent)] text-[var(--ut-button-text)]"
+                                : "border-[var(--ut-border)] bg-[var(--ut-surface)] text-[var(--ut-text)] hover:bg-[color-mix(in_srgb,var(--ut-accent)_10%,transparent)]"
+                            }`}
+                          >
+                            {variant}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ),
+              )}
             </div>
           </div>
         ) : null}
-      </header>
+        <button
+          className="ml-auto flex items-center gap-2 rounded-full border border-[var(--ut-border)] bg-[var(--ut-surface)] px-4 py-3 text-xs uppercase tracking-[0.2em] text-[var(--ut-text)] shadow-soft transition hover:bg-[color-mix(in_srgb,var(--ut-accent)_10%,transparent)] md:ml-auto"
+          type="button"
+          onClick={() => setThemeMenuOpen((value) => !value)}
+        >
+          <span className="h-2 w-2 rounded-full bg-[var(--ut-accent)]" />
+          Themes
+        </button>
+      </div>
 
       <section
         id="home"
@@ -215,6 +366,16 @@ export default function Home() {
             <h1 className="max-w-2xl text-5xl font-semibold tracking-tight text-[var(--ut-text)] md:text-7xl">
               Unique Trades
             </h1>
+            <div className="mt-6 flex items-center gap-3">
+              <img
+                alt="Unique Trades logo"
+                className="h-10 w-10 rounded-full border border-[var(--ut-border)] bg-[var(--ut-surface)] p-1"
+                src="/ut-logo.svg"
+              />
+              <p className="text-sm uppercase tracking-[0.3em] text-[var(--ut-muted)]">
+                Quiet capability
+              </p>
+            </div>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--ut-muted)] md:text-xl">
               Beyond Conventional Trade.
             </p>
