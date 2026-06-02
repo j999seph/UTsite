@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
+import AnnotationTool from "@/components/AnnotationTool";
 
 const sections = [
   { label: "Home", id: "home" },
@@ -182,6 +183,7 @@ const themes: Record<
 export default function Home() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const [devToolsEnabled, setDevToolsEnabled] = useState(false);
   const [theme, setTheme] = useState<ThemeKey>("midnight");
   const [mode, setMode] = useState<ThemeMode>("dark");
 
@@ -208,6 +210,7 @@ export default function Home() {
   }, [theme, mode]);
 
   const activeTheme = themes[theme].variants[mode];
+  const logoFilter = mode === "dark" ? "brightness(0) invert(1)" : "none";
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -244,23 +247,50 @@ export default function Home() {
           ["--ut-button-text" as string]: activeTheme.colors.buttonText,
         } as CSSProperties
       }
-    >
+      >
+      {process.env.NODE_ENV !== "production" ? (
+        <>
+          <button
+            type="button"
+            onClick={() => {
+              setDevToolsEnabled((value) => !value);
+              setThemeMenuOpen(false);
+            }}
+            className="fixed right-4 bottom-4 z-[70] rounded-full border border-[var(--ut-border)] bg-[var(--ut-surface)] px-4 py-3 text-xs uppercase tracking-[0.2em] text-[var(--ut-text)] shadow-soft backdrop-blur-xl transition hover:bg-[color-mix(in_srgb,var(--ut-accent)_10%,transparent)]"
+          >
+            {devToolsEnabled ? "Hide Dev" : "Show Dev"}
+          </button>
+          {devToolsEnabled ? (
+            <>
+              <AnnotationTool />
+              <div className="fixed right-4 bottom-20 z-[60]">
+                <div className="flex flex-col gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setThemeMenuOpen((value) => !value)}
+                    className="rounded-full border border-[var(--ut-border)] bg-[var(--ut-surface)] px-4 py-3 text-xs uppercase tracking-[0.2em] text-[var(--ut-text)] shadow-soft backdrop-blur-xl transition hover:bg-[color-mix(in_srgb,var(--ut-accent)_10%,transparent)]"
+                  >
+                    Themes
+                  </button>
+                </div>
+              </div>
+            </>
+          ) : null}
+        </>
+      ) : null}
+
       <header className="sticky top-0 z-20 border-b border-[var(--ut-border)] bg-[color-mix(in_srgb,var(--ut-accent)_12%,transparent)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-[var(--ut-border)] bg-[var(--ut-surface)]">
-              <img
-                alt="Unique Trades logo"
-                className="h-full w-full object-contain p-1"
-                src="/ut-logo.svg"
-              />
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-[0.25em] text-[var(--ut-accent)]">
-                Unique Trades
-              </p>
-              <p className="text-sm text-[var(--ut-muted)]">Beyond conventional trade</p>
-            </div>
+            <img
+              alt="Unique Trades logo"
+              className="h-12 w-auto shrink-0"
+              src="/ut-logo.svg"
+              style={{ filter: logoFilter }}
+            />
+            <p className="text-base uppercase tracking-[0.3em] text-[var(--ut-accent)]">
+              Unique Trades
+            </p>
           </div>
           <div className="flex items-center gap-4">
             <nav className="hidden gap-5 text-xs uppercase tracking-[0.2em] text-[var(--ut-muted)] md:flex">
@@ -274,118 +304,110 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="fixed bottom-4 left-4 right-4 z-30 md:bottom-auto md:left-auto md:right-4 md:top-1/2 md:-translate-y-1/2">
-        {themeMenuOpen ? (
-          <div
-            className="mb-3 w-full rounded-3xl border p-4 shadow-soft backdrop-blur-xl md:mb-3 md:w-72"
-            style={{
-              borderColor: "var(--ut-border)",
-              background: "var(--ut-surface)",
-            }}
-          >
-            <div className="flex items-center justify-between">
-              <p className="text-xs uppercase tracking-[0.25em] text-[var(--ut-accent)]">
-                Theme
-              </p>
-              <button
-                type="button"
-                onClick={() => setThemeMenuOpen(false)}
-                className="text-xs uppercase tracking-[0.2em] text-[var(--ut-muted)] transition hover:text-[var(--ut-text)]"
-              >
-                Close
-              </button>
-            </div>
-            <div className="mt-4 space-y-3">
-              {(Object.entries(themes) as Array<[ThemeKey, (typeof themes)[ThemeKey]]>).map(
-                ([key, item]) => (
-                  <div
-                    key={key}
-                    className="rounded-2xl border p-2"
-                    style={{
-                      borderColor: "var(--ut-border)",
-                      background: "color-mix(in srgb, var(--ut-accent) 5%, transparent)",
-                    }}
-                  >
-                    <div className="mb-2 flex items-center justify-between px-2">
-                      <span className="text-xs uppercase tracking-[0.2em] text-[var(--ut-text)]">
-                        {item.name}
-                      </span>
+      {process.env.NODE_ENV !== "production" && devToolsEnabled ? (
+        <div className="fixed bottom-4 left-4 right-4 z-30 md:bottom-auto md:left-auto md:right-4 md:top-1/2 md:-translate-y-1/2">
+          {themeMenuOpen ? (
+            <div
+              className="mb-3 w-full rounded-3xl border p-4 shadow-soft backdrop-blur-xl md:mb-3 md:w-72"
+              style={{
+                borderColor: "var(--ut-border)",
+                background: "var(--ut-surface)",
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <p className="text-xs uppercase tracking-[0.25em] text-[var(--ut-accent)]">
+                  Theme
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setThemeMenuOpen(false)}
+                  className="text-xs uppercase tracking-[0.2em] text-[var(--ut-muted)] transition hover:text-[var(--ut-text)]"
+                >
+                  Close
+                </button>
+              </div>
+              <div className="mt-4 space-y-3">
+                {(Object.entries(themes) as Array<[ThemeKey, (typeof themes)[ThemeKey]]>).map(
+                  ([key, item]) => (
+                    <div
+                      key={key}
+                      className="rounded-2xl border p-2"
+                      style={{
+                        borderColor: "var(--ut-border)",
+                        background: "color-mix(in srgb, var(--ut-accent) 5%, transparent)",
+                      }}
+                    >
+                      <div className="mb-2 flex items-center justify-between px-2">
+                        <span className="text-xs uppercase tracking-[0.2em] text-[var(--ut-text)]">
+                          {item.name}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        {(["dark", "light"] as ThemeMode[]).map((variant) => {
+                          const isActive = theme === key && mode === variant;
+                          return (
+                            <button
+                              key={variant}
+                              type="button"
+                              onClick={() => {
+                                setTheme(key);
+                                setMode(variant);
+                              }}
+                              className={`rounded-xl border px-3 py-2 text-left text-xs uppercase tracking-[0.18em] transition ${
+                                isActive
+                                  ? "border-transparent bg-[var(--ut-accent)] text-[var(--ut-button-text)]"
+                                  : "border-[var(--ut-border)] bg-[var(--ut-surface)] text-[var(--ut-text)] hover:bg-[color-mix(in_srgb,var(--ut-accent)_10%,transparent)]"
+                              }`}
+                            >
+                              {variant}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {(["dark", "light"] as ThemeMode[]).map((variant) => {
-                        const isActive = theme === key && mode === variant;
-                        return (
-                          <button
-                            key={variant}
-                            type="button"
-                            onClick={() => {
-                              setTheme(key);
-                              setMode(variant);
-                            }}
-                            className={`rounded-xl border px-3 py-2 text-left text-xs uppercase tracking-[0.18em] transition ${
-                              isActive
-                                ? "border-transparent bg-[var(--ut-accent)] text-[var(--ut-button-text)]"
-                                : "border-[var(--ut-border)] bg-[var(--ut-surface)] text-[var(--ut-text)] hover:bg-[color-mix(in_srgb,var(--ut-accent)_10%,transparent)]"
-                            }`}
-                          >
-                            {variant}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ),
-              )}
+                  ),
+                )}
+              </div>
             </div>
-          </div>
-        ) : null}
-        <button
-          className="ml-auto flex items-center gap-2 rounded-full border border-[var(--ut-border)] bg-[var(--ut-surface)] px-4 py-3 text-xs uppercase tracking-[0.2em] text-[var(--ut-text)] shadow-soft transition hover:bg-[color-mix(in_srgb,var(--ut-accent)_10%,transparent)] md:ml-auto"
-          type="button"
-          onClick={() => setThemeMenuOpen((value) => !value)}
-        >
-          <span className="h-2 w-2 rounded-full bg-[var(--ut-accent)]" />
-          Themes
-        </button>
-      </div>
+          ) : null}
+        </div>
+      ) : null}
 
       <section
         id="home"
-        className="relative mx-auto grid min-h-[88vh] max-w-6xl items-center overflow-hidden px-6 py-20"
+        className="relative mx-auto grid min-h-[88vh] max-w-6xl items-center px-6 py-16"
       >
         <div className="absolute inset-0 -z-10 opacity-70">
           <div className="absolute left-1/2 top-24 h-80 w-80 -translate-x-1/2 rounded-full bg-[color-mix(in_srgb,var(--ut-accent)_14%,transparent)] blur-3xl" />
           <div className="absolute bottom-10 right-0 h-72 w-72 rounded-full bg-[color-mix(in_srgb,var(--ut-accent-2)_14%,transparent)] blur-3xl" />
           <div className="absolute left-0 top-10 h-px w-full bg-gradient-to-r from-transparent via-[var(--ut-border)] to-transparent" />
         </div>
-        <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-          <div className="max-w-3xl">
-            <p className="mb-5 text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">
+        <div className="grid gap-16 lg:grid-cols-[1fr_0.78fr] lg:items-start lg:gap-28">
+          <div className="max-w-[49rem]">
+            <p className="mb-3 text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">
               Global, capable, discreet
             </p>
-            <h1 className="max-w-2xl text-5xl font-semibold tracking-tight text-[var(--ut-text)] md:text-7xl">
-              Unique Trades
-            </h1>
-            <div className="mt-6 flex items-center gap-3">
+            <div className="flex flex-nowrap items-center gap-6">
               <img
                 alt="Unique Trades logo"
-                className="h-10 w-10 rounded-full border border-[var(--ut-border)] bg-[var(--ut-surface)] p-1"
+                className="h-[5rem] w-auto shrink-0 md:h-[6.75rem]"
                 src="/ut-logo.svg"
+                style={{ filter: logoFilter }}
               />
-              <p className="text-sm uppercase tracking-[0.3em] text-[var(--ut-muted)]">
-                Quiet capability
-              </p>
+              <h1 className="whitespace-nowrap text-5xl font-semibold tracking-tight text-[var(--ut-text)] md:text-[4.6rem] lg:text-[4.95rem]">
+                Unique Trades
+              </h1>
             </div>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--ut-muted)] md:text-xl">
+            <p className="mt-4 max-w-2xl text-[1.35rem] font-semibold italic leading-8 text-[var(--ut-muted)] md:text-[1.5rem]">
               Beyond Conventional Trade.
             </p>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--ut-muted)] md:text-lg">
+            <p className="mt-3 max-w-2xl text-base leading-8 text-[var(--ut-muted)] md:text-lg">
               In a rapidly changing global marketplace, businesses often require more than
               standard solutions. Unique Trades works closely with clients and international
               partners to explore opportunities, identify possibilities, and support unique
               requirements across industries and regions worldwide.
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="mt-7 flex flex-wrap gap-4">
               <a
                 className="rounded-full px-6 py-3 text-sm font-medium text-[var(--ut-button-text)] transition hover:opacity-90"
                 href="#contact"
@@ -404,16 +426,13 @@ export default function Home() {
           </div>
 
           <aside
-            className="rounded-[2rem] border p-6 shadow-soft backdrop-blur-md"
+            className="rounded-[2.75rem] border p-6 shadow-soft backdrop-blur-md lg:mt-12 lg:justify-self-end lg:translate-x-4 xl:translate-x-10"
             style={{
               borderColor: "var(--ut-border)",
               background: "var(--ut-surface)",
             }}
           >
-            <p className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">
-              Positioning
-            </p>
-            <div className="mt-5 space-y-4">
+            <div className="space-y-4">
               <p className="text-xl leading-8 text-[var(--ut-text)]">
                 Quiet capability for unusual international requirements.
               </p>
@@ -426,7 +445,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="about" className="mx-auto max-w-6xl px-6 py-20">
+      <section id="about" className="mx-auto max-w-6xl px-6 py-12">
         <h2 className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">About</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--ut-muted)]">
           Unique Trades is built around relationships, global connectivity, adaptability, and the
@@ -438,7 +457,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section id="global-reach" className="mx-auto max-w-6xl px-6 py-20">
+      <section id="global-reach" className="mx-auto max-w-6xl px-6 py-12">
         <h2 className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">Global Reach</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--ut-muted)]">
           We work through an international network of partners, associates, and industry contacts
@@ -460,7 +479,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="opportunities" className="mx-auto max-w-6xl px-6 py-20">
+      <section id="opportunities" className="mx-auto max-w-6xl px-6 py-12">
         <h2 className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">Opportunities</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--ut-muted)]">
           Bring us your challenge, your sourcing need, trade requirement, logistics issue, market
@@ -471,7 +490,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section id="contact" className="mx-auto max-w-6xl px-6 py-20">
+      <section id="contact" className="mx-auto max-w-6xl px-6 py-12">
         <h2 className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">Contact</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--ut-muted)]">
           Quiet, professional inquiries are welcome. We are best suited to thoughtful, long-term,
@@ -551,14 +570,14 @@ export default function Home() {
         </form>
       </section>
 
-      <section id="network" className="mx-auto max-w-6xl px-6 py-20">
+      <section id="network" className="mx-auto max-w-6xl px-6 py-12">
         <h2 className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">Network</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--ut-muted)]">
           Reserved for future expansion.
         </p>
       </section>
 
-      <section id="insights" className="mx-auto max-w-6xl px-6 py-20">
+      <section id="insights" className="mx-auto max-w-6xl px-6 py-12">
         <h2 className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">Insights</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--ut-muted)]">
           Reserved for future expansion.
