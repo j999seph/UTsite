@@ -12,6 +12,7 @@ This file is the working protocol for UTsite. Keep all project decisions, notes,
 - Keep the site discreet, capable, globally connected, and not overly explanatory.
 - Maintain a running log of new asks, decisions, and open questions in the notes folder.
 - If a requirement is delayed pending client feedback, mark it as pending rather than dropping it.
+- Before every publish or commit, run a quick safety check for accidental secrets, wrong repo scope, and unintended files.
 
 ## Current stack direction
 - Frontend: Next.js
