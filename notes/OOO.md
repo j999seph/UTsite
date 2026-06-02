@@ -71,3 +71,5 @@ This file is the working protocol for UTsite. Keep all project decisions, notes,
 - Add a stronger first-pass visual system
 - Wire the contact form
 - Draft SEO metadata and social preview language
+- Add a hidden theme-switcher menu with selectable palettes
+- Reserve logo placement throughout the site
