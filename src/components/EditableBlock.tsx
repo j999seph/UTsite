@@ -146,18 +146,20 @@ export default function EditableBlock({
 
   return (
     <div
+      id={id}
       className={className}
       style={{
         position: "relative",
         transform: `translate(${box.x}px, ${box.y}px)`,
         width: box.width,
         height: box.height,
+        scrollMarginTop: "6rem",
         opacity: visible ? 1 : 0.2,
-      pointerEvents: visible ? undefined : "none",
-      transition: dragRef.current ? "none" : "transform 120ms ease, box-shadow 120ms ease",
-      cursor: enabled ? "move" : undefined,
-      overflow: "visible",
-      ...style,
+        pointerEvents: visible ? undefined : "none",
+        transition: dragRef.current ? "none" : "transform 120ms ease, box-shadow 120ms ease",
+        cursor: enabled ? "move" : undefined,
+        overflow: "visible",
+        ...style,
       }}
       onPointerDown={enabled ? beginDrag : undefined}
       onClick={enabled ? () => onSelect(id) : undefined}
