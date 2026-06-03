@@ -626,6 +626,13 @@ export default function Home() {
                     <a
                       className="inline-flex items-center whitespace-nowrap rounded-full px-1.5 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] leading-none transition hover:text-[var(--ut-text)]"
                       href={`#${item.id}`}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        document.getElementById(item.id)?.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start",
+                        });
+                      }}
                     >
                       {item.label}
                     </a>
