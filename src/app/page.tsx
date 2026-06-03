@@ -74,9 +74,9 @@ const defaultLayout: LayoutState = {
   about: { x: 0, y: 0, width: 720, height: 140 },
   globalReach: { x: 0, y: 0, width: 720, height: 220 },
   opportunities: { x: 0, y: 0, width: 720, height: 140 },
-  contact: { x: 0, y: 0, width: 720, height: 480 },
-  network: { x: 0, y: 0, width: 720, height: 120 },
-  insights: { x: 0, y: 0, width: 720, height: 120 },
+  contact: { x: 0, y: 0, width: 720, height: 540 },
+  network: { x: 0, y: 0, width: 720, height: 180 },
+  insights: { x: 0, y: 0, width: 720, height: 180 },
 };
 
 const defaultLayoutPresets: LayoutPresetMap = {
