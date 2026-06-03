@@ -30,6 +30,8 @@ type LayoutTarget =
   | "navGlobal"
   | "navOpportunities"
   | "navContact"
+  | "navNetwork"
+  | "navInsights"
   | "hero"
   | "heroBadge"
   | "heroLogo"
@@ -59,6 +61,8 @@ const defaultLayout: LayoutState = {
   navGlobal: { x: 0, y: 0, width: 120, height: 28 },
   navOpportunities: { x: 0, y: 0, width: 140, height: 28 },
   navContact: { x: 0, y: 0, width: 80, height: 28 },
+  navNetwork: { x: 0, y: 0, width: 100, height: 28 },
+  navInsights: { x: 0, y: 0, width: 100, height: 28 },
   hero: { x: 0, y: 0, width: 720, height: 380 },
   heroBadge: { x: 0, y: 0, width: 300, height: 24 },
   heroLogo: { x: 0, y: 0, width: 120, height: 100 },
@@ -337,6 +341,8 @@ export default function Home() {
         next === "navGlobal" ||
         next === "navOpportunities" ||
         next === "navContact" ||
+        next === "navNetwork" ||
+        next === "navInsights" ||
         next === "hero" ||
         next === "heroBadge" ||
         next === "heroLogo" ||
@@ -463,6 +469,8 @@ export default function Home() {
       id === "navGlobal" ||
       id === "navOpportunities" ||
       id === "navContact" ||
+      id === "navNetwork" ||
+      id === "navInsights" ||
       id === "heroBadge" ||
       id === "heroLogo" ||
       id === "heroTitleText" ||
@@ -581,7 +589,7 @@ export default function Home() {
             </p>
           </EditableBlock>
           <div className="flex items-center gap-4">
-            <nav className="hidden gap-5 text-xs uppercase tracking-[0.2em] text-[var(--ut-muted)] md:flex">
+            <nav className="hidden flex-1 items-center justify-end gap-4 text-[10px] uppercase tracking-[0.14em] text-[var(--ut-muted)] lg:flex xl:gap-5">
               {sections.map((item) => {
                 const navTarget =
                   item.id === "about"
@@ -592,7 +600,11 @@ export default function Home() {
                         ? "navOpportunities"
                         : item.id === "contact"
                           ? "navContact"
-                          : "navHome";
+                          : item.id === "network"
+                            ? "navNetwork"
+                            : item.id === "insights"
+                              ? "navInsights"
+                              : "navHome";
 
                 return (
                   <EditableBlock
@@ -610,7 +622,7 @@ export default function Home() {
                     style={{ minHeight: 28 }}
                   >
                     <a
-                      className="inline-flex items-center whitespace-nowrap rounded-full px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] leading-none transition hover:text-[var(--ut-text)]"
+                      className="inline-flex items-center whitespace-nowrap rounded-full px-1.5 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] leading-none transition hover:text-[var(--ut-text)]"
                       href={`#${item.id}`}
                     >
                       {item.label}
