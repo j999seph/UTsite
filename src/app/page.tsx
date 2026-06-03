@@ -578,18 +578,20 @@ export default function Home() {
             onSelect={selectLayoutTarget}
             className="flex items-center gap-3"
           >
-            <img
-              alt="Unique Trades logo"
-              className="h-12 w-auto shrink-0"
-              src="/ut-logo.svg"
-              style={{ filter: logoFilter }}
-            />
-            <p className="text-base uppercase tracking-[0.3em] text-[var(--ut-accent)]">
-              Unique Trades
-            </p>
+            <div className="flex items-center gap-3">
+              <img
+                alt="Unique Trades logo"
+                className="h-12 w-auto shrink-0"
+                src="/ut-logo.svg"
+                style={{ filter: logoFilter }}
+              />
+              <p className="text-base uppercase tracking-[0.22em] text-[var(--ut-accent)] md:text-[1.05rem]">
+                Unique Trades
+              </p>
+            </div>
           </EditableBlock>
           <div className="flex items-center gap-4">
-            <nav className="hidden flex-1 items-center justify-end gap-4 text-[10px] uppercase tracking-[0.14em] text-[var(--ut-muted)] lg:flex xl:gap-5">
+            <nav className="hidden flex-1 items-center justify-end gap-2 text-[10px] uppercase tracking-[0.14em] text-[var(--ut-muted)] lg:flex xl:gap-3">
               {sections.map((item) => {
                 const navTarget =
                   item.id === "about"
@@ -618,8 +620,8 @@ export default function Home() {
                     baseBox={defaultLayout[navTarget]}
                     onChange={updateLayout}
                     onSelect={selectLayoutTarget}
-                    className="inline-flex items-center"
-                    style={{ minHeight: 28 }}
+                    className="inline-flex items-center justify-center"
+                    style={{ minHeight: 28, minWidth: item.label.length > 10 ? 98 : 74 }}
                   >
                     <a
                       className="inline-flex items-center whitespace-nowrap rounded-full px-1.5 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] leading-none transition hover:text-[var(--ut-text)]"
