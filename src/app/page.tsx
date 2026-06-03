@@ -66,7 +66,7 @@ const defaultLayout: LayoutState = {
   heroTagline: { x: 0, y: 0, width: 420, height: 44 },
   heroCopy: { x: 0, y: 0, width: 720, height: 180 },
   heroCtas: { x: 0, y: 0, width: 420, height: 64 },
-  card: { x: 0, y: 0, width: 480, height: 260 },
+  card: { x: 0, y: 0, width: 480, height: 208 },
   about: { x: 0, y: 0, width: 720, height: 140 },
   globalReach: { x: 0, y: 0, width: 720, height: 220 },
   opportunities: { x: 0, y: 0, width: 720, height: 140 },
@@ -846,11 +846,11 @@ export default function Home() {
               background: "var(--ut-surface)",
             }}
           >
-            <div className="space-y-4">
-              <p className="text-xl leading-8 text-[var(--ut-text)]">
+            <div className="space-y-3">
+              <p className="text-lg font-medium leading-7 text-[var(--ut-text)] md:text-xl md:leading-8">
                 Quiet capability for unusual international requirements.
               </p>
-              <p className="text-sm leading-7 text-[var(--ut-muted)]">
+              <p className="text-sm leading-7 text-[var(--ut-muted)] md:text-[0.95rem]">
                 A refined business presence for thoughtful opportunities, selective inquiries, and
                 global relationship-building.
               </p>

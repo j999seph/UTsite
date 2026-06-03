@@ -151,7 +151,7 @@ export default function EditableBlock({
         position: "relative",
         transform: `translate(${box.x}px, ${box.y}px)`,
         width: box.width,
-        minHeight: box.height,
+        height: box.height,
         opacity: visible ? 1 : 0.2,
       pointerEvents: visible ? undefined : "none",
       transition: dragRef.current ? "none" : "transform 120ms ease, box-shadow 120ms ease",
@@ -172,6 +172,7 @@ export default function EditableBlock({
           height: baseHeight,
           transform: `scale(${scaleX}, ${scaleY})`,
           transformOrigin: "top left",
+          overflow: "hidden",
         }}
       >
         {children}
