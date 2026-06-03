@@ -883,7 +883,7 @@ export default function Home() {
         baseBox={defaultLayout.about}
         onChange={updateLayout}
         onSelect={selectLayoutTarget}
-        className="mx-auto max-w-6xl px-6 py-12"
+        className="mx-auto max-w-6xl px-6 py-16 md:py-20"
       >
         <h2 className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">About</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--ut-muted)]">
@@ -906,7 +906,7 @@ export default function Home() {
         baseBox={defaultLayout.globalReach}
         onChange={updateLayout}
         onSelect={selectLayoutTarget}
-        className="mx-auto max-w-6xl px-6 py-12"
+        className="mx-auto max-w-6xl px-6 py-16 md:py-20"
       >
         <h2 className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">Global Reach</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--ut-muted)]">
@@ -939,7 +939,7 @@ export default function Home() {
         baseBox={defaultLayout.opportunities}
         onChange={updateLayout}
         onSelect={selectLayoutTarget}
-        className="mx-auto max-w-6xl px-6 py-12"
+        className="mx-auto max-w-6xl px-6 py-16 md:py-20"
       >
         <h2 className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">Opportunities</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--ut-muted)]">
@@ -961,7 +961,7 @@ export default function Home() {
         baseBox={defaultLayout.contact}
         onChange={updateLayout}
         onSelect={selectLayoutTarget}
-        className="mx-auto max-w-6xl px-6 py-12"
+        className="mx-auto max-w-6xl px-6 py-20 md:py-24"
       >
         <h2 className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">Contact</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--ut-muted)]">
@@ -1052,7 +1052,7 @@ export default function Home() {
         baseBox={defaultLayout.network}
         onChange={updateLayout}
         onSelect={selectLayoutTarget}
-        className="mx-auto max-w-6xl px-6 py-12"
+        className="mx-auto max-w-6xl px-6 pt-24 pb-20 md:pt-28 md:pb-24"
       >
         <h2 className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">Network</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--ut-muted)]">
@@ -1070,7 +1070,7 @@ export default function Home() {
         baseBox={defaultLayout.insights}
         onChange={updateLayout}
         onSelect={selectLayoutTarget}
-        className="mx-auto max-w-6xl px-6 py-12"
+        className="mx-auto max-w-6xl px-6 pt-28 pb-24 md:pt-32 md:pb-28"
       >
         <h2 className="text-xs uppercase tracking-[0.3em] text-[var(--ut-accent)]">Insights</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--ut-muted)]">
